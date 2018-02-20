@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name ="list_item_width">180dp</dimen>
+    <dimen name ="list_item_height">256dp</dimen>
+    <dimen name ="image_small">24dp</dimen>
+    <dimen name ="margin">16dp</dimen>
+    <dimen name="cornerRadius">4dp</dimen>
+    <dimen name="side_margin_card">8dp</dimen>
+    <dimen name="card_margin">4dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="divider_height">5dp</dimen>
+</resources>
