@@ -28,16 +28,20 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
     public MovieRecyclerAdapter(List<ResultMovie> resultMovieList, Context context, OnItemClickListener listener) {
         this.mResultMovieList = resultMovieList;
-        this.mContext = context;
+        this.mContext =  context;
         this.mListener = listener;
+    }
+
+
+    public void setData(List<ResultMovie> moviesList) {
+        this.mResultMovieList = moviesList;
+        notifyDataSetChanged();
     }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View listItemView = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.list_item, parent, false);
-        MovieViewHolder viewHolder = new MovieViewHolder(listItemView);
-        return viewHolder;
+        View listItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new MovieViewHolder(listItemView);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         void onItemClick(ResultMovie result);
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.movie_thumbnail)
         ImageView movieThumbnailIv;

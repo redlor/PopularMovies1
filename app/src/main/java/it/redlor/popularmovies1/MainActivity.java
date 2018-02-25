@@ -1,5 +1,6 @@
 package it.redlor.popularmovies1;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,21 +8,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import it.redlor.popularmovies1.pojos.ResultMovie;
-import it.redlor.popularmovies1.pojos.Root;
-import it.redlor.popularmovies1.service.MovieApiClient;
-import it.redlor.popularmovies1.service.PopularMoviesApiInterface;
+import it.redlor.popularmovies1.viewmodel.MoviesListViewModel;
+import it.redlor.popularmovies1.viewmodel.ViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,9 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     MovieRecyclerAdapter mAdapter;
 
+    MoviesListViewModel mViewModel;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
 
     @NonNull
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,39 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        PopularMoviesApiInterface popularMoviesApiInterface = MovieApiClient.getClient().create(PopularMoviesApiInterface.class);
+       // AppComponent appComponent = ((MoviesApp) getApplication()).getAppComponent();
+//        AndroidInjection.inject(this);
+     //   androidInjector.inject(this);
 
-        // Calls the Interface for handling the custom request
-mCompositeDisposable.add((Disposable) popularMoviesApiInterface.getRepository(API_KEY)
+        mViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(MoviesListViewModel.class);
+    System.out.println("viewmodel: " + mViewModel.toString());
+
+     mViewModel.getMoviesList().observe(this, mMoviesList -> {
+         if (mMoviesList == null) {
+             System.out.println(" null");
+         }
+         int numberOfColumns = calculateNoOfColumns(getApplicationContext());
+         mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
+         mAdapter = new MovieRecyclerAdapter(mMoviesList, this, new MovieRecyclerAdapter.OnItemClickListener() {
+             @Override
+             public void onItemClick(ResultMovie result) {
+
+             }
+         });
+         mRecyclerView.setAdapter(mAdapter);
+
+
+     });
+
+                // mViewModel.getMoviesList().observe(this, mMoviesList -> processResponse(mMoviesList));
+
+                //    mViewModel.getMovies().observe(this, mMoviesList -> mAdapter.setData(mMoviesList));
+
+                //    mViewModel.getMoviesList().observe(this, mMoviesList -> mAdapter.setData(mMoviesList));
+
+
+/*mCompositeDisposable.add((Disposable) moviesApiInterface.getRepository(API_KEY)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Function<Root, List<ResultMovie>>() {
@@ -69,7 +99,7 @@ mCompositeDisposable.add((Disposable) popularMoviesApiInterface.getRepository(AP
                             mRecyclerView.setAdapter(mAdapter);
                         }
                     })
-);
+);*/
 
     }
 
@@ -79,4 +109,18 @@ mCompositeDisposable.add((Disposable) popularMoviesApiInterface.getRepository(AP
         int noOfColumns = (int) (dpWidth / 180);
         return noOfColumns;
     }
+
+  /*  private void processResponse(List<ResultMovie> moviesList) {
+        mViewModel.getPopularMovies();
+        int numberOfColumns = calculateNoOfColumns(getApplicationContext());
+        mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
+        mAdapter = new MovieRecyclerAdapter(moviesList, mViewModel, new MovieRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ResultMovie result) {
+
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
+        System.out.println(moviesList.toString());
+    }*/
 }

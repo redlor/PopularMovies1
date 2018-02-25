@@ -9,7 +9,7 @@ import retrofit2.http.Query;
  * Created by Hp on 18/02/2018.
  */
 
-public interface PopularMoviesApiInterface {
+public interface MoviesApiInterface {
 
     // Customize the Url request
     @GET("popular")
