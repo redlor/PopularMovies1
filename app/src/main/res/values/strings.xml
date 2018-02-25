@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">PopularMovies1</string>
+    <string name="app_name">Popular Movies</string>
+
+    <!-- Spinner -->
+    <string-array name="sort_movies">
+        <item>Most Popular</item>
+        <item>Top Rated</item>
+    </string-array>
+
 </resources>

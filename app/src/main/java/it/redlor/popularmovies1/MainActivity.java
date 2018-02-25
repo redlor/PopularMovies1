@@ -7,6 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.movies_rv)
     RecyclerView mRecyclerView;
+    @BindView(R.id.spinner)
+    Spinner mSpinner;
 
     MovieRecyclerAdapter mAdapter;
 
@@ -44,62 +52,38 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-       // AppComponent appComponent = ((MoviesApp) getApplication()).getAppComponent();
-//        AndroidInjection.inject(this);
-     //   androidInjector.inject(this);
-
         mViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(MoviesListViewModel.class);
-    System.out.println("viewmodel: " + mViewModel.toString());
 
-     mViewModel.getMoviesList().observe(this, mMoviesList -> {
-         if (mMoviesList == null) {
-             System.out.println(" null");
-         }
-         int numberOfColumns = calculateNoOfColumns(getApplicationContext());
-         mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
-         mAdapter = new MovieRecyclerAdapter(mMoviesList, this, new MovieRecyclerAdapter.OnItemClickListener() {
-             @Override
-             public void onItemClick(ResultMovie result) {
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.sort_movies,
+                android.R.layout.simple_spinner_dropdown_item);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(arrayAdapter);
 
-             }
-         });
-         mRecyclerView.setAdapter(mAdapter);
-
-
-     });
-
-                // mViewModel.getMoviesList().observe(this, mMoviesList -> processResponse(mMoviesList));
-
-                //    mViewModel.getMovies().observe(this, mMoviesList -> mAdapter.setData(mMoviesList));
-
-                //    mViewModel.getMoviesList().observe(this, mMoviesList -> mAdapter.setData(mMoviesList));
+       mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               switch (i) {
+                   case 0:
+                       mViewModel.getMoviesList().observe(MainActivity.this, mMoviesList -> processResponse(mMoviesList));
+                       break;
+                   case 1:
+                       mViewModel.getTopRatedMoviesList().observe(MainActivity.this, mMoviesList -> processResponse(mMoviesList));
+               }
 
 
-/*mCompositeDisposable.add((Disposable) moviesApiInterface.getRepository(API_KEY)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map(new Function<Root, List<ResultMovie>>() {
-                        @Override
-                        public List<ResultMovie> apply(Root root) throws Exception {
-                            return root.getResults();
-                        }
-                    })
-                    .subscribe(new Consumer<List<ResultMovie>>() {
-                        @Override
-                        public void accept(List<ResultMovie> resultMovieList) throws Exception {
-                            int numberOfColumns = calculateNoOfColumns(getApplicationContext());
-                            mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
-                            mAdapter = new MovieRecyclerAdapter(resultMovieList, MainActivity.this, new MovieRecyclerAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(ResultMovie result) {
+           }
 
-                                }
-                            });
-                            mRecyclerView.setAdapter(mAdapter);
-                        }
-                    })
-);*/
+           @Override
+           public void onNothingSelected(AdapterView<?> adapterView) {
+
+           }
+       });
+
+
+  //   mViewModel.getMoviesList().observe(this, mMoviesList -> processResponse(mMoviesList));
+
+
 
     }
 
@@ -110,17 +94,15 @@ public class MainActivity extends AppCompatActivity {
         return noOfColumns;
     }
 
-  /*  private void processResponse(List<ResultMovie> moviesList) {
-        mViewModel.getPopularMovies();
+    private void processResponse(List<ResultMovie> moviesList) {
         int numberOfColumns = calculateNoOfColumns(getApplicationContext());
         mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
-        mAdapter = new MovieRecyclerAdapter(moviesList, mViewModel, new MovieRecyclerAdapter.OnItemClickListener() {
+        mAdapter = new MovieRecyclerAdapter(moviesList, this, new MovieRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(ResultMovie result) {
 
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        System.out.println(moviesList.toString());
-    }*/
+    }
 }

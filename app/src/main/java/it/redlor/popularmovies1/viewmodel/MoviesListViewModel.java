@@ -18,11 +18,8 @@ import io.reactivex.schedulers.Schedulers;
 import it.redlor.popularmovies1.BuildConfig;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 import it.redlor.popularmovies1.pojos.Root;
-import it.redlor.popularmovies1.service.MovieApiClient;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import it.redlor.popularmovies1.service.TopRatedMoviesApiInterface;
 
 /**
  * Created by Hp on 20/02/2018.
@@ -34,6 +31,7 @@ public class MoviesListViewModel extends ViewModel {
 
     private Application mApplication;
     private MoviesApiInterface mMoviesApiInterface;
+    private TopRatedMoviesApiInterface mTopRatedMoviesApiInterface;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private MutableLiveData<List<ResultMovie>> mMoviesList;
 
@@ -48,17 +46,34 @@ public class MoviesListViewModel extends ViewModel {
 
 
     public LiveData<List<ResultMovie>> getMoviesList() {
-     //   if (mMoviesList == null) {
-      //      mMoviesList = new MutableLiveData<List<ResultMovie>>();
-            System.out.println("null");
             loadMovies();
-       //     System.out.println("List: " + mMoviesList);
-     //   }
+        return mMoviesList;
+    }
+
+    public LiveData<List<ResultMovie>> getTopRatedMoviesList() {
+        loadTopRatedMovies();
         return mMoviesList;
     }
 
     public void setMoviesList(MutableLiveData<List<ResultMovie>> mMoviesList) {
         this.mMoviesList = mMoviesList;
+    }
+
+    private void loadTopRatedMovies() {
+
+        mCompositeDisposable.add((Disposable) mMoviesApiInterface.getTopRatedRepo(API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Root>() {
+                    @Override
+                    public void accept(Root root) throws Exception {
+                        mMoviesList.setValue(new ArrayList<>());
+                        for (ResultMovie resultMovie : root.getResults()) {
+                            if (root.getResults() != null) mMoviesList.getValue().add(resultMovie);
+                        }
+
+                    }
+                }));
     }
 
     private void loadMovies(/*Observable<Root> observable*/) {
@@ -76,7 +91,7 @@ public class MoviesListViewModel extends ViewModel {
 
                     }
                 }));
-
+    }
 
 
  /* mCompositeDisposable.add(observable
@@ -105,7 +120,7 @@ public class MoviesListViewModel extends ViewModel {
                          @Override
                          public void onComplete() {}
                      }));*/
-    }
+
 
     @Override
     protected void onCleared() {
@@ -113,33 +128,4 @@ public class MoviesListViewModel extends ViewModel {
         mCompositeDisposable.clear();
     }
 
-     public void getPopularMovies() {
-      //  loadMovies(mMoviesApiInterface.getRepository(API_KEY));
-
-       MoviesApiInterface apiInterface = MovieApiClient.getClient().create(MoviesApiInterface.class);
-
-         Call<Root> call = (Call<Root>) apiInterface.getRepository(API_KEY);
-         call.enqueue(new Callback<Root>() {
-             @Override
-             public void onResponse(Call<Root> call, Response<Root> response) {
-                 mMoviesList = (MutableLiveData<List<ResultMovie>>) response.body().getResults();
-
-             }
-
-             @Override
-             public void onFailure(Call<Root> call, Throwable t) {
-
-             }
-         });
-    }
-
- /*   @Override
-    public String toString() {
-        if (mMoviesList != null) {
-            return mMoviesList.getValue().toString();
-        } else {
-            return super.toString();
-        }
-
-    }*/
 }
