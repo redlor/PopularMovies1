@@ -9,7 +9,6 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
-import it.redlor.popularmovies1.service.TopRatedMoviesApiInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -74,9 +73,4 @@ public class ApiClientModule {
         return retrofit.create(MoviesApiInterface.class);
     }
 
-    @Provides
-    @Singleton
-    TopRatedMoviesApiInterface providesTopRatedMoviesApiInterface(Retrofit retrofit) {
-        return retrofit.create(TopRatedMoviesApiInterface.class);
-    }
 }

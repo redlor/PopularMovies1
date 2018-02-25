@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <dimen name="no_internet_image_margin">50dp</dimen>
+    <dimen name="no_internet_text">16sp</dimen>
+
+    <!-- Card -->
     <dimen name ="list_item_width">180dp</dimen>
     <dimen name ="list_item_height">256dp</dimen>
     <dimen name ="image_small">24dp</dimen>

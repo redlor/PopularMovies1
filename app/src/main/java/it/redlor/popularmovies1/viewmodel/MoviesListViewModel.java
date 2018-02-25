@@ -19,7 +19,8 @@ import it.redlor.popularmovies1.BuildConfig;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 import it.redlor.popularmovies1.pojos.Root;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
-import it.redlor.popularmovies1.service.TopRatedMoviesApiInterface;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by Hp on 20/02/2018.
@@ -31,7 +32,6 @@ public class MoviesListViewModel extends ViewModel {
 
     private Application mApplication;
     private MoviesApiInterface mMoviesApiInterface;
-    private TopRatedMoviesApiInterface mTopRatedMoviesApiInterface;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private MutableLiveData<List<ResultMovie>> mMoviesList;
 
@@ -45,7 +45,7 @@ public class MoviesListViewModel extends ViewModel {
     }
 
 
-    public LiveData<List<ResultMovie>> getMoviesList() {
+    public LiveData<List<ResultMovie>> getMostPopularMoviesList() {
             loadMovies();
         return mMoviesList;
     }
@@ -84,6 +84,11 @@ public class MoviesListViewModel extends ViewModel {
                 .subscribe(new Consumer<Root>() {
                     @Override
                     public void accept(Root root) throws Exception {
+                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+                        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+                        httpClient.addInterceptor(logging);
+                        httpClient.build();
                         mMoviesList.setValue(new ArrayList<>());
                         for (ResultMovie resultMovie : root.getResults()) {
                             if (root.getResults() != null) mMoviesList.getValue().add(resultMovie);

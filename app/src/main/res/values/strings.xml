@@ -7,4 +7,7 @@
         <item>Top Rated</item>
     </string-array>
 
+    <!-- No Internet connection -->
+    <string name="credit_wifi_icon">https://www.flaticon.com/authors/kirill-kazachek</string>
+    <string name="no_internet">No Internet connection</string>
 </resources>

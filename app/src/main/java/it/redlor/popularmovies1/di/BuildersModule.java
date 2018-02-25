@@ -2,7 +2,7 @@ package it.redlor.popularmovies1.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import it.redlor.popularmovies1.MainActivity;
+import it.redlor.popularmovies1.ui.MainActivity;
 
 /**
  * Created by Hp on 23/02/2018.
