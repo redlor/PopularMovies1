@@ -3,8 +3,13 @@ package it.redlor.popularmovies1.di;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import dagger.android.AndroidInjection;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.HasSupportFragmentInjector;
 import it.redlor.popularmovies1.MoviesApp;
 
 /**
@@ -25,8 +30,8 @@ public class AppInjector {
                 .registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                     @Override
                     public void onActivityCreated(Activity activity, Bundle bundle) {
-                        AndroidInjection.inject(activity);
-                     /*   if (activity instanceof HasSupportFragmentInjector)
+                   //     AndroidInjection.inject(activity);
+                        if (activity instanceof HasSupportFragmentInjector)
                         {
                             AndroidInjection.inject(activity);
                         }
@@ -46,7 +51,7 @@ public class AppInjector {
                                                     }
                                                 }
                                             }, true);
-                        }*/
+                        }
                     }
 
                     @Override
@@ -80,9 +85,5 @@ public class AppInjector {
                     }
                 });
     }
-
-    /**
-     * Marks an activity / fragment injectable.
-     */
 
 }

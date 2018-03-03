@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import it.redlor.popularmovies1.BuildConfig;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 import it.redlor.popularmovies1.pojos.Root;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
+import it.redlor.popularmovies1.ui.DetailsActivity;
+import it.redlor.popularmovies1.ui.MovieClickCallback;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -26,9 +29,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * Created by Hp on 20/02/2018.
  */
 
-public class MoviesListViewModel extends ViewModel {
+public class MoviesListViewModel extends ViewModel implements MovieClickCallback {
 
     private static final String API_KEY = BuildConfig.API_KEY;
+    private static final String CLICKED_MOVIE = "clicked_movie";
+
 
     private Application mApplication;
     private MoviesApiInterface mMoviesApiInterface;
@@ -43,6 +48,7 @@ public class MoviesListViewModel extends ViewModel {
         this.mApplication = application;
         mMoviesList = new MutableLiveData<>();
     }
+
 
 
     public LiveData<List<ResultMovie>> getMostPopularMoviesList() {
@@ -76,7 +82,7 @@ public class MoviesListViewModel extends ViewModel {
                 }));
     }
 
-    private void loadMovies(/*Observable<Root> observable*/) {
+    private void loadMovies() {
 
         mCompositeDisposable.add((Disposable) mMoviesApiInterface.getRepository(API_KEY)
                 .subscribeOn(Schedulers.io())
@@ -98,39 +104,16 @@ public class MoviesListViewModel extends ViewModel {
                 }));
     }
 
-
- /* mCompositeDisposable.add(observable
-                  .subscribeOn(Schedulers.io())
-                  .observeOn(AndroidSchedulers.mainThread())
-                  .subscribeWith(new DisposableObserver<Root>() {
-                         @Override
-                         public void onNext(Root root) {
-                             if (root.getResults().size() == 0 ) {
-                                 return;
-                             }
-
-                             mMoviesList.setValue(new ArrayList<ResultMovie>());
-                             for (ResultMovie resultMovie :  root.getResults()) {
-                                 mMoviesList.getValue().add(resultMovie);
-                                 System.out.println("list "+ mMoviesList);
-                             }
-
-                         }
-
-                         @Override
-                         public void onError(Throwable e) {
-                            e.printStackTrace();
-                         }
-
-                         @Override
-                         public void onComplete() {}
-                     }));*/
-
-
     @Override
     protected void onCleared() {
         super.onCleared();
         mCompositeDisposable.clear();
     }
 
+    @Override
+    public void onClick(ResultMovie resultMovie) {
+        Intent intent = new Intent(mApplication.getApplicationContext(), DetailsActivity.class);
+        intent.putExtra(CLICKED_MOVIE, resultMovie);
+        mApplication.startActivity(intent);
+    }
 }

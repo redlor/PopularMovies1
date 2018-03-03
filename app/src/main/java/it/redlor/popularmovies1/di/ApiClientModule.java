@@ -9,8 +9,6 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -51,13 +49,6 @@ public class ApiClientModule {
     @Singleton
     @Provides
     Retrofit providesRetrofit(Gson gson) {
-
-        // Initializing Http Interceptor to log the Url
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
-        httpClient.build();
 
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)

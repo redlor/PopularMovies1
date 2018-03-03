@@ -3,66 +3,42 @@ package it.redlor.popularmovies1.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
-import it.redlor.popularmovies1.BuildConfig;
-import it.redlor.popularmovies1.MovieRecyclerAdapter;
 import it.redlor.popularmovies1.R;
+import it.redlor.popularmovies1.databinding.ActivityMainBinding;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 import it.redlor.popularmovies1.viewmodel.MoviesListViewModel;
 import it.redlor.popularmovies1.viewmodel.ViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String API_KEY = BuildConfig.API_KEY;
-
-    @BindView(R.id.movies_rv)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.spinner)
-    Spinner mSpinner;
-    @BindView(R.id.no_internet_image)
-    ImageView mNoInternetImageView;
-    @BindView(R.id.no_internet_text)
-    TextView mNoInternetTextView;
 
     MovieRecyclerAdapter mAdapter;
-
     MoviesListViewModel mViewModel;
+    ActivityMainBinding mActivityMainBinding;
 
     @Inject
-    ViewModelFactory viewModelFactory;
-
-    @NonNull
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-
-
+    ViewModelFactory mViewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
+        mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         if (internetAvailable()) {
             setOnlineUI();
@@ -71,15 +47,15 @@ public class MainActivity extends AppCompatActivity {
           setOfflineUI();
         }
 
-        mViewModel = ViewModelProviders.of(this, viewModelFactory)
+        mViewModel = ViewModelProviders.of(this, mViewModelFactory)
                 .get(MoviesListViewModel.class);
 
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.sort_movies,
                 android.R.layout.simple_spinner_dropdown_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(arrayAdapter);
+       mActivityMainBinding.spinner.setAdapter(arrayAdapter);
 
-       mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mActivityMainBinding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
            @Override
            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                switch (i) {
@@ -118,14 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void processResponse(List<ResultMovie> moviesList) {
         int numberOfColumns = calculateNoOfColumns(getApplicationContext());
-        mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
-        mAdapter = new MovieRecyclerAdapter(moviesList, this, new MovieRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(ResultMovie result) {
-
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
+        mActivityMainBinding.moviesRv.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
+        mAdapter = new MovieRecyclerAdapter(moviesList, mViewModel);
+        mActivityMainBinding.moviesRv.setAdapter(mAdapter);
     }
 
     public boolean internetAvailable() {
@@ -143,20 +114,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnlineUI() {
-        mSpinner.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoInternetImageView.setVisibility(View.GONE);
-        mNoInternetTextView.setVisibility(View.GONE);
+        mActivityMainBinding.spinner.setVisibility(View.VISIBLE);
+        mActivityMainBinding.moviesRv.setVisibility(View.VISIBLE);
+        mActivityMainBinding.noInternetImage.setVisibility(View.GONE);
+        mActivityMainBinding.noInternetText.setVisibility(View.GONE);
     }
 
     private void setOfflineUI() {
-        mSpinner.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.GONE);
-        mNoInternetImageView.setVisibility(View.VISIBLE);
-        mNoInternetTextView.setVisibility(View.VISIBLE);
+        mActivityMainBinding.spinner.setVisibility(View.GONE);
+        mActivityMainBinding.moviesRv.setVisibility(View.GONE);
+        mActivityMainBinding.noInternetImage.setVisibility(View.VISIBLE);
+        mActivityMainBinding.noInternetText.setVisibility(View.VISIBLE);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mNoInternetImageView.getLayoutParams().height = 256;
-            mNoInternetImageView.getLayoutParams().width = 256;
+            mActivityMainBinding.noInternetImage.getLayoutParams().height = 256;
+            mActivityMainBinding.noInternetImage.getLayoutParams().width = 256;
         }
     }
+
 }

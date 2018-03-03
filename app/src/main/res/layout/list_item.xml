@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:orientation="horizontal">
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-   <!-- <data>
+   <data>
         <variable
-            android:name="viewModel"
-            android:type="it.redlor.popularmovies1.pojos.ResultMovie"/>
-    </data>-->
+            name="viewModel"
+            type="it.redlor.popularmovies1.pojos.ResultMovie" />
+       <variable
+           name="callback"
+           type="it.redlor.popularmovies1.ui.MovieClickCallback"/>
+    </data>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -20,6 +25,7 @@
         android:layout_marginLeft="@dimen/side_margin_card"
         android:layout_marginRight="@dimen/cornerRadius"
         android:layout_marginTop="@dimen/card_margin"
+        android:foreground="?android:attr/selectableItemBackground"
         card_view:cardBackgroundColor="@android:color/transparent"
         card_view:cardElevation="0dp"
         card_view:cardCornerRadius="@dimen/cornerRadius">
@@ -29,7 +35,9 @@
         android:layout_width="@dimen/list_item_width"
         android:contentDescription="@{viewModel.title}"
         android:layout_height="@dimen/list_item_height"
+        app:imageUrl="@{viewModel.posterPath}"
         android:scaleType="centerCrop"/>
 
     </android.support.v7.widget.CardView>
- </LinearLayout>
+    </LinearLayout>
+ </layout>

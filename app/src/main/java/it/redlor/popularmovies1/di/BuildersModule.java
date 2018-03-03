@@ -2,6 +2,7 @@ package it.redlor.popularmovies1.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import it.redlor.popularmovies1.ui.DetailsActivity;
 import it.redlor.popularmovies1.ui.MainActivity;
 
 /**
@@ -13,4 +14,7 @@ public abstract class BuildersModule {
 
     @ContributesAndroidInjector
     abstract MainActivity bindMainActivity();
+
+    @ContributesAndroidInjector
+    abstract DetailsActivity bindDetailsActivity();
 }
