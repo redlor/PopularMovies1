@@ -14,7 +14,7 @@ import it.redlor.popularmovies1.MoviesApp;
 @Singleton
 @Component(modules = {AppModule.class,
         AndroidSupportInjectionModule.class,
-        BuildersModule.class})
+        BuildersModule.class, FragmentBuildersModule.class})
 public interface AppComponent {
     @Component.Builder
     interface Builder {

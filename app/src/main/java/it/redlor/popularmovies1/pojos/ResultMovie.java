@@ -54,47 +54,29 @@ public class ResultMovie implements Parcelable {
     @Expose
     private String releaseDate;
 
-    protected ResultMovie(Parcel in) {
-        if (in.readByte() == 0) {
-            voteCount = null;
-        } else {
-            voteCount = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        byte tmpVideo = in.readByte();
-        video = tmpVideo == 0 ? null : tmpVideo == 1;
-        if (in.readByte() == 0) {
-            voteAverage = null;
-        } else {
-            voteAverage = in.readDouble();
-        }
-        title = in.readString();
-        if (in.readByte() == 0) {
-            popularity = null;
-        } else {
-            popularity = in.readDouble();
-        }
-        posterPath = in.readString();
-        originalLanguage = in.readString();
-        originalTitle = in.readString();
-        backdropPath = in.readString();
-        byte tmpAdult = in.readByte();
-        adult = tmpAdult == 0 ? null : tmpAdult == 1;
-        overview = in.readString();
-        releaseDate = in.readString();
+    public ResultMovie(int id, String title, String posterPath, String releaseDate, double voteAverage, String overview) {
+        this.id = id;
+        this.title = title;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.voteAverage = voteAverage;
+        this.overview = overview;
     }
 
-    public static final Creator<ResultMovie> CREATOR = new Creator<ResultMovie>() {
-        @Override
+    public ResultMovie(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        posterPath = in.readString();
+        releaseDate = in.readString();
+        voteAverage = in.readDouble();
+        overview = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
         public ResultMovie createFromParcel(Parcel in) {
             return new ResultMovie(in);
         }
-
-        @Override
         public ResultMovie[] newArray(int size) {
             return new ResultMovie[size];
         }
@@ -220,10 +202,22 @@ public class ResultMovie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(this.getTitle());
-        parcel.writeString(this.getReleaseDate());
-        parcel.writeString(this.getPosterPath());
-        parcel.writeDouble(this.getVoteAverage());
-        parcel.writeString(this.getOverview());
+        parcel.writeInt(this.id);
+        parcel.writeString(this.title);
+        parcel.writeString(this.posterPath);
+        parcel.writeString(this.releaseDate);
+        parcel.writeDouble(this.voteAverage);
+        parcel.writeString(this.overview);
+    }
+
+    @Override
+    public String toString() {
+        return "ResultMovie{" +
+                "id='" + id + '\'' +
+                ", name='" + title + '\'' +
+                ", date='" + releaseDate + '\'' +
+                ", poster='" + posterPath + '\'' +
+                ", vote='" + voteAverage + '\'' +
+                '}';
     }
 }

@@ -14,29 +14,21 @@ import it.redlor.popularmovies1.pojos.ResultMovie;
 
 public class MovieViewModel extends ViewModel {
 
-    private Application mApplication;
-    MutableLiveData<ResultMovie> mResultMovie;
+    private Application application;
+    MutableLiveData<ResultMovie> resultMovie;
 
     @Inject
     public MovieViewModel(Application application) {
-        this.mApplication = application;
-        this.mResultMovie = new MutableLiveData<>();
-    }
-
-    public Application getApplication() {
-        return mApplication;
-    }
-
-    public void setApplication(Application mApplication) {
-        this.mApplication = mApplication;
+        this.application = application;
+        this.resultMovie = new MutableLiveData<>();
     }
 
     public ResultMovie getResultMovie() {
-        return mResultMovie.getValue();
+        return resultMovie.getValue();
     }
 
     public void setResultMovie(ResultMovie resultMovie) {
-        this.mResultMovie.setValue(resultMovie);
+        this.resultMovie.setValue(resultMovie);
     }
 
 

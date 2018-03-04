@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import it.redlor.popularmovies1.pojos.ResultMovie;
 import it.redlor.popularmovies1.pojos.Root;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
 import it.redlor.popularmovies1.ui.DetailsActivity;
+import it.redlor.popularmovies1.ui.MainActivity;
 import it.redlor.popularmovies1.ui.MovieClickCallback;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -114,6 +116,7 @@ public class MoviesListViewModel extends ViewModel implements MovieClickCallback
     public void onClick(ResultMovie resultMovie) {
         Intent intent = new Intent(mApplication.getApplicationContext(), DetailsActivity.class);
         intent.putExtra(CLICKED_MOVIE, resultMovie);
+        Log.d(MainActivity.class.getSimpleName(), "movie: " + resultMovie);
         mApplication.startActivity(intent);
     }
 }

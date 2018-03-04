@@ -34,6 +34,8 @@ public class AppInjector {
                         if (activity instanceof HasSupportFragmentInjector)
                         {
                             AndroidInjection.inject(activity);
+                        }  else {
+                            AndroidInjection.inject(activity);
                         }
                         if (activity instanceof FragmentActivity)
                         {
