@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import it.redlor.popularmovies1.ui.DetailsActivity;
 import it.redlor.popularmovies1.ui.MainActivity;
+import it.redlor.popularmovies1.ui.SplashScreenActivity;
 
 /**
  * Created by Hp on 23/02/2018.
@@ -17,4 +18,7 @@ public abstract class BuildersModule {
 
     @ContributesAndroidInjector
     abstract DetailsActivity bindDetailsActivity();
+
+    @ContributesAndroidInjector
+    abstract SplashScreenActivity bindSplashActivity();
 }
