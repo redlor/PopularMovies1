@@ -57,5 +57,6 @@ public class DetailsFragment extends Fragment implements Injectable {
         fragmentDetailsBinding.setVariable(BR.movieViewModel, movieViewModel);
         getActivity().setTitle(resultMovie.getTitle());
 
+
     }
 }

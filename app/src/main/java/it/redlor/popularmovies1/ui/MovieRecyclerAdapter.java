@@ -11,6 +11,7 @@ import java.util.List;
 import it.redlor.popularmovies1.BR;
 import it.redlor.popularmovies1.databinding.ListItemBinding;
 import it.redlor.popularmovies1.pojos.ResultMovie;
+import it.redlor.popularmovies1.service.AnimationUtil;
 import it.redlor.popularmovies1.viewmodel.MoviesListViewModel;
 
 public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.MovieViewHolder> {
@@ -18,7 +19,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     private static final String BASE_THUMBNAIL_URL = "http://image.tmdb.org/t/p/";
     private static final String THUMBNAIL_SIZE = "w185/";
 
-  //  private Context mContext;
+  private int previousPosition = 0;
 
   private MoviesListViewModel mMoviesListViewModel;
   private List<ResultMovie> mResultMovieList;
@@ -48,12 +49,13 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-    //    final ResultMovie currentMovie = mResultMovieList.get(position);
+        if (position > previousPosition) {
+            AnimationUtil.animate(holder, true); // We are scrolling DOWN
+        } else {
+            AnimationUtil.animate(holder, false); // We are scrolling UP
+        }
+        previousPosition = position;
 
-        // Populate the ViewHolder
-    //    String imageUrl = BASE_THUMBNAIL_URL + THUMBNAIL_SIZE + currentMovie.getPosterPath();
-    //    Log.d(MovieRecyclerAdapter.class.getSimpleName(), imageUrl);
-    //    Picasso.with(mContext).load(imageUrl).into(holder.movieThumbnailIv);
 
         holder.bind(mResultMovieList.get(position), mMoviesListViewModel);
     }

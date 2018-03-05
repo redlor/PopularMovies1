@@ -27,7 +27,7 @@ public class ImageBindingAdapter {
                     .build();
             Picasso.with(imageView.getContext())
                     .load(uri.toString())
-                    .placeholder(R.mipmap.ic_launcher)
+                    .placeholder(R.drawable.clapper_board)
                     .into(imageView);
     }
 }
