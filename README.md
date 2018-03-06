@@ -6,5 +6,5 @@ To create this app, I applied Architecture Components: MVVM, Dependency Injectio
 In addition, I added an animation when the RecyclerView is scrolled up and down and implemented a Dual Pane version for tablets.
 
 ## Screenshots
-<img src="./Screenshots/movies1popularport.png" alt="Drawing" width="200px"/>
+<img src="./Screenshots/movies1popularport.png" alt="Drawing" width="200px"/> <img src="./Screenshots/movies1topratedport.png" alt="Drawing" width="200px"/> <img src="./Screenshots/detailsport.png" alt="Drawing" width="200px"/> <img src="./Screenshots/movies1tablet.png" alt="Drawing" width="400px"/>
 
