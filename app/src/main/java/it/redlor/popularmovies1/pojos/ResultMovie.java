@@ -11,6 +11,16 @@ import java.util.List;
 
 public class ResultMovie implements Parcelable {
 
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
+        public ResultMovie createFromParcel(Parcel in) {
+            return new ResultMovie(in);
+        }
+
+        public ResultMovie[] newArray(int size) {
+            return new ResultMovie[size];
+        }
+    };
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
@@ -71,16 +81,6 @@ public class ResultMovie implements Parcelable {
         voteAverage = in.readDouble();
         overview = in.readString();
     }
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-
-        public ResultMovie createFromParcel(Parcel in) {
-            return new ResultMovie(in);
-        }
-        public ResultMovie[] newArray(int size) {
-            return new ResultMovie[size];
-        }
-    };
 
     public Integer getVoteCount() {
         return voteCount;

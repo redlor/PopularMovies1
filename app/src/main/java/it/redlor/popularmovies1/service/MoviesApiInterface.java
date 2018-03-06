@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * Created by Hp on 18/02/2018.
+ * Interface to define endpoints
  */
 
 public interface MoviesApiInterface {

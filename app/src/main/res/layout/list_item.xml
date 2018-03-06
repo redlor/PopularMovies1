@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-   <data>
+    <data>
+
         <variable
             name="viewModel"
             type="it.redlor.popularmovies1.pojos.ResultMovie" />
-       <variable
-           name="callback"
-           type="it.redlor.popularmovies1.ui.MovieClickCallback"/>
+
+        <variable
+            name="callback"
+            type="it.redlor.popularmovies1.ui.MovieClickCallback" />
     </data>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:background="@android:color/transparent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/card_margin"
-        android:layout_marginLeft="@dimen/side_margin_card"
-        android:layout_marginRight="@dimen/cornerRadius"
-        android:layout_marginTop="@dimen/card_margin"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardBackgroundColor="@android:color/transparent"
-        card_view:cardElevation="0dp"
-        card_view:cardCornerRadius="@dimen/cornerRadius">
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/movie_thumbnail"
-        android:layout_width="@dimen/list_item_width"
-        android:contentDescription="@{viewModel.title}"
-        android:layout_height="@dimen/list_item_height"
-        app:imageUrl="@{viewModel.posterPath}"
-        android:onClick="@{() -> callback.onClick(viewModel)}"
-        android:scaleType="centerCrop"/>
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/card_margin"
+            android:layout_marginLeft="@dimen/side_margin_card"
+            android:layout_marginRight="@dimen/cornerRadius"
+            android:layout_marginTop="@dimen/card_margin"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardBackgroundColor="@android:color/transparent"
+            card_view:cardCornerRadius="@dimen/cornerRadius"
+            card_view:cardElevation="0dp">
 
-    </android.support.v7.widget.CardView>
+            <ImageView
+                android:id="@+id/movie_thumbnail"
+                android:layout_width="@dimen/list_item_width"
+                android:layout_height="@dimen/list_item_height"
+                android:contentDescription="@{viewModel.title}"
+                android:onClick="@{() -> callback.onClick(viewModel)}"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{viewModel.posterPath}" />
+
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
- </layout>
+</layout>

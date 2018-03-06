@@ -4,8 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Intent;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,27 +19,21 @@ import it.redlor.popularmovies1.BuildConfig;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 import it.redlor.popularmovies1.pojos.Root;
 import it.redlor.popularmovies1.service.MoviesApiInterface;
-import it.redlor.popularmovies1.ui.DetailsActivity;
-import it.redlor.popularmovies1.ui.MainActivity;
-import it.redlor.popularmovies1.ui.MovieClickCallback;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * Created by Hp on 20/02/2018.
+ * ViewModel for the list of Movies
  */
 
-public class MoviesListViewModel extends ViewModel implements MovieClickCallback {
+public class MoviesListViewModel extends ViewModel {
 
+    // The API key is on file in gitignore
     private static final String API_KEY = BuildConfig.API_KEY;
-    private static final String CLICKED_MOVIE = "clicked_movie";
 
 
     private Application mApplication;
     private MoviesApiInterface mMoviesApiInterface;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private MutableLiveData<List<ResultMovie>> mMoviesList;
-
 
 
     @Inject
@@ -51,10 +43,8 @@ public class MoviesListViewModel extends ViewModel implements MovieClickCallback
         mMoviesList = new MutableLiveData<>();
     }
 
-
-
     public LiveData<List<ResultMovie>> getMostPopularMoviesList() {
-            loadMovies();
+        loadMovies();
         return mMoviesList;
     }
 
@@ -67,6 +57,7 @@ public class MoviesListViewModel extends ViewModel implements MovieClickCallback
         this.mMoviesList = mMoviesList;
     }
 
+    //This method calls the Top Rated Movies
     private void loadTopRatedMovies() {
 
         mCompositeDisposable.add((Disposable) mMoviesApiInterface.getTopRatedRepo(API_KEY)
@@ -84,6 +75,7 @@ public class MoviesListViewModel extends ViewModel implements MovieClickCallback
                 }));
     }
 
+    //This method calls the Most Popular Movies
     private void loadMovies() {
 
         mCompositeDisposable.add((Disposable) mMoviesApiInterface.getRepository(API_KEY)
@@ -92,16 +84,10 @@ public class MoviesListViewModel extends ViewModel implements MovieClickCallback
                 .subscribe(new Consumer<Root>() {
                     @Override
                     public void accept(Root root) throws Exception {
-                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-                        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
-                        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-                        httpClient.addInterceptor(logging);
-                        httpClient.build();
                         mMoviesList.setValue(new ArrayList<>());
                         for (ResultMovie resultMovie : root.getResults()) {
                             if (root.getResults() != null) mMoviesList.getValue().add(resultMovie);
                         }
-
                     }
                 }));
     }
@@ -112,11 +98,5 @@ public class MoviesListViewModel extends ViewModel implements MovieClickCallback
         mCompositeDisposable.clear();
     }
 
-    @Override
-    public void onClick(ResultMovie resultMovie) {
-        Intent intent = new Intent(mApplication.getApplicationContext(), DetailsActivity.class);
-        intent.putExtra(CLICKED_MOVIE, resultMovie);
-        Log.d(MainActivity.class.getSimpleName(), "movie: " + resultMovie);
-        mApplication.startActivity(intent);
-    }
+
 }

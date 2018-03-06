@@ -8,7 +8,7 @@ import dagger.android.AndroidInjectionModule;
 import it.redlor.popularmovies1.MoviesApp;
 
 /**
- * Created by Hp on 23/02/2018.
+ * Module to provide the Context
  */
 
 @Module(includes = {AndroidInjectionModule.class, ViewModelModule.class})

@@ -3,9 +3,9 @@ package it.redlor.popularmovies1.ui;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 
 /**
- * Created by Hp on 27/02/2018.
+ * Interface for defining a click listener
  */
 
-public interface MovieClickCallback extends MovieRecyclerAdapter.ViewHolderListener {
+public interface MovieClickCallback {
     void onClick(ResultMovie resultMovie);
 }

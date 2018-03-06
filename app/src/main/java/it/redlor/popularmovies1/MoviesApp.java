@@ -12,7 +12,7 @@ import it.redlor.popularmovies1.di.AppInjector;
 
 
 /**
- * Created by Hp on 23/02/2018.
+ * Application injected when AppInjector is called
  */
 
 public class MoviesApp extends Application implements HasActivityInjector {
@@ -26,7 +26,6 @@ public class MoviesApp extends Application implements HasActivityInjector {
         AppInjector.init(this);
 
     }
-
 
     @Override
     public AndroidInjector<Activity> activityInjector() {

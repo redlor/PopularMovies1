@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by Hp on 05/03/2018.
+ * Class to implement the Splash Screen
  */
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -14,12 +14,12 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Thread myThread = new Thread(){
+        Thread myThread = new Thread() {
             @Override
             public void run() {
                 try {
-                    sleep(3000);
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    sleep(2000);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (InterruptedException e) {

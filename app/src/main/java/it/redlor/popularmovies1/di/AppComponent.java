@@ -8,7 +8,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 import it.redlor.popularmovies1.MoviesApp;
 
 /**
- * Created by Hp on 24/02/2018.
+ * Dagger Component for the application
  */
 
 @Singleton
@@ -16,6 +16,8 @@ import it.redlor.popularmovies1.MoviesApp;
         AndroidSupportInjectionModule.class,
         BuildersModule.class, FragmentBuildersModule.class})
 public interface AppComponent {
+    void inject(MoviesApp moviesApp);
+
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -23,6 +25,4 @@ public interface AppComponent {
 
         AppComponent build();
     }
-
-    void inject(MoviesApp moviesApp);
 }

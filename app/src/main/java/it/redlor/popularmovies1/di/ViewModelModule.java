@@ -12,7 +12,7 @@ import it.redlor.popularmovies1.viewmodel.ViewModelFactory;
 import it.redlor.popularmovies1.viewmodel.ViewModelKey;
 
 /**
- * Created by Hp on 23/02/2018.
+ * Module that provides ViewModels
  */
 
 @Module(includes = {ApiClientModule.class})

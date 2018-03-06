@@ -9,7 +9,7 @@ import com.squareup.picasso.Picasso;
 import it.redlor.popularmovies1.R;
 
 /**
- * Created by Hp on 03/03/2018.
+ * Utility to bind the image to the ImageView using Picasso
  */
 
 public class ImageBindingAdapter {
@@ -19,15 +19,13 @@ public class ImageBindingAdapter {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView imageView, String imageUrl) {
-
-//            Log.d("Image ", imageUrl);
-            Uri uri = Uri.parse(BASE_THUMBNAIL_URL).buildUpon()
-                    .appendPath(THUMBNAIL_SIZE)
-                    .appendEncodedPath(imageUrl)
-                    .build();
-            Picasso.with(imageView.getContext())
-                    .load(uri.toString())
-                    .placeholder(R.drawable.clapper_board)
-                    .into(imageView);
+        Uri uri = Uri.parse(BASE_THUMBNAIL_URL).buildUpon()
+                .appendPath(THUMBNAIL_SIZE)
+                .appendEncodedPath(imageUrl)
+                .build();
+        Picasso.with(imageView.getContext())
+                .load(uri.toString())
+                .placeholder(R.drawable.clapper_board)
+                .into(imageView);
     }
 }

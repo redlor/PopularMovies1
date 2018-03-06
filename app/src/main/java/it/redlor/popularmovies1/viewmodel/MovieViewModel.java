@@ -9,13 +9,13 @@ import javax.inject.Inject;
 import it.redlor.popularmovies1.pojos.ResultMovie;
 
 /**
- * Created by Hp on 25/02/2018.
+ * ViewModel for the Details Screen
  */
 
 public class MovieViewModel extends ViewModel {
 
-    private Application application;
     MutableLiveData<ResultMovie> resultMovie;
+    private Application application;
 
     @Inject
     public MovieViewModel(Application application) {

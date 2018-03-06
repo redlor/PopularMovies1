@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import it.redlor.popularmovies1.viewmodel.ViewModelFactory;
 
 
 /**
- * Created by Hp on 25/02/2018.
+ * Fragment with Movies's details
  */
 
 public class DetailsFragment extends Fragment implements Injectable {
@@ -50,7 +49,6 @@ public class DetailsFragment extends Fragment implements Injectable {
         Bundle bundle = new Bundle();
         bundle = getArguments();
         ResultMovie resultMovie = bundle.getParcelable(CLICKED_MOVIE);
-        Log.d(DetailsFragment.class.getSimpleName(), resultMovie.toString());
 
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         movieViewModel.setResultMovie(resultMovie);

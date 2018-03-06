@@ -10,7 +10,7 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 /**
- * Created by Hp on 20/02/2018.
+ * Factory to create ViewModels
  */
 
 @Singleton

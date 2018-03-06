@@ -4,8 +4,10 @@ package it.redlor.popularmovies1.ui;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.redlor.popularmovies1.BR;
@@ -19,16 +21,18 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     private static final String BASE_THUMBNAIL_URL = "http://image.tmdb.org/t/p/";
     private static final String THUMBNAIL_SIZE = "w185/";
 
-  private int previousPosition = 0;
+    private int previousPosition = 0;
 
-  private MoviesListViewModel mMoviesListViewModel;
-  private List<ResultMovie> mResultMovieList;
-  //  private OnItemClickListener mListener;
+    private MoviesListViewModel mMoviesListViewModel;
+    private List<ResultMovie> mResultMovieList;
+    private MovieClickCallback mMovieClickCallback;
 
 
-    public MovieRecyclerAdapter(List<ResultMovie> resultMovieList, MoviesListViewModel moviesListViewModel) {
-        this.mResultMovieList = resultMovieList;
+    public MovieRecyclerAdapter(List<ResultMovie> list, MoviesListViewModel moviesListViewModel, MovieClickCallback movieClickCallback) {
+        mResultMovieList = new ArrayList<>();
+        this.mResultMovieList = list;
         this.mMoviesListViewModel = moviesListViewModel;
+        this.mMovieClickCallback = movieClickCallback;
     }
 
     public void setData(List<ResultMovie> moviesList) {
@@ -38,17 +42,13 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        /*View listItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-        return new MovieViewHolder(listItemView);*/
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ListItemBinding listItemBinding = ListItemBinding.inflate(layoutInflater,
-                parent, false);
-        return new MovieViewHolder(listItemBinding);
-
+        return MovieViewHolder.create(layoutInflater, parent, mMovieClickCallback);
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
+        // Set the scrolling animation on the RecyclerView
         if (position > previousPosition) {
             AnimationUtil.animate(holder, true); // We are scrolling DOWN
         } else {
@@ -56,8 +56,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         }
         previousPosition = position;
 
-
-        holder.bind(mResultMovieList.get(position), mMoviesListViewModel);
+        holder.bind(mResultMovieList.get(position), mMovieClickCallback);
     }
 
     @Override
@@ -65,18 +64,25 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         return mResultMovieList.size();
     }
 
-    // Create an onItemClickListener for the RecyclerView
-   /* public interface OnItemClickListener {
-        void onItemClick(ResultMovie result);
-    }*/
-
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    static class MovieViewHolder extends RecyclerView.ViewHolder {
 
         private final ViewDataBinding mViewDataBinding;
 
-        public MovieViewHolder(ViewDataBinding viewDataBinding) {
-            super(viewDataBinding.getRoot());
-            this.mViewDataBinding =  viewDataBinding;
+        public MovieViewHolder(final ListItemBinding listItemBinding, final MovieClickCallback callback) {
+            super(listItemBinding.getRoot());
+            this.mViewDataBinding = listItemBinding;
+            listItemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callback.onClick(listItemBinding.getViewModel());
+                }
+            });
+
+        }
+
+        public static MovieViewHolder create(LayoutInflater inflater, ViewGroup parent, MovieClickCallback callback) {
+            ListItemBinding itemMovieListBinding = ListItemBinding.inflate(inflater, parent, false);
+            return new MovieViewHolder(itemMovieListBinding, callback);
         }
 
         // Bind the onItemClickListener to the RecyclerView
@@ -86,10 +92,6 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             mViewDataBinding.executePendingBindings();
 
         }
-
-
     }
-    public interface ViewHolderListener {
 
-    }
 }

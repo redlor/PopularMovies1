@@ -5,7 +5,7 @@ import dagger.android.ContributesAndroidInjector;
 import it.redlor.popularmovies1.ui.DetailsFragment;
 
 /**
- * Created by Hp on 03/03/2018.
+ * Module for the Fragment
  */
 
 @Module

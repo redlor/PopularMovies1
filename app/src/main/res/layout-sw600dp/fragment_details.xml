@@ -19,7 +19,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/posterImageView"
@@ -29,13 +29,13 @@
                 android:contentDescription="@{movieViewModel.resultMovie.title}"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{movieViewModel.resultMovie.posterPath}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
                 tools:srcCompat="@drawable/ic_launcher_background" />
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/small_margin"
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/small_margin"
                     android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="@dimen/view_margin"
+                    android:layout_marginTop="@dimen/big_margin_tablet"
                     android:text="@{movieViewModel.resultMovie.overview}"
                     android:textColor="@color/text_color_details"
                     android:textSize="@dimen/text_size_big"

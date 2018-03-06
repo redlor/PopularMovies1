@@ -10,6 +10,10 @@ import java.lang.annotation.Target;
 
 import dagger.MapKey;
 
+/**
+ * Interface used with Dagger to inject ViewModels
+ */
+
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

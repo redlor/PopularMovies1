@@ -13,7 +13,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 import it.redlor.popularmovies1.MoviesApp;
 
 /**
- * Created by Hp on 24/02/2018.
+ * AppInjector to inject activities and fragment when created
  */
 
 public class AppInjector {
@@ -24,31 +24,26 @@ public class AppInjector {
     public static void init(MoviesApp moviesApp) {
 
         DaggerAppComponent.builder().application(moviesApp)
-                          .build().inject(moviesApp);
+                .build().inject(moviesApp);
 
         moviesApp
                 .registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                     @Override
                     public void onActivityCreated(Activity activity, Bundle bundle) {
-                   //     AndroidInjection.inject(activity);
-                        if (activity instanceof HasSupportFragmentInjector)
-                        {
+                        //     AndroidInjection.inject(activity);
+                        if (activity instanceof HasSupportFragmentInjector) {
                             AndroidInjection.inject(activity);
-                        }  else {
+                        } else {
                             AndroidInjection.inject(activity);
                         }
-                        if (activity instanceof FragmentActivity)
-                        {
+                        if (activity instanceof FragmentActivity) {
                             ((FragmentActivity) activity).getSupportFragmentManager()
                                     .registerFragmentLifecycleCallbacks(
-                                            new FragmentManager.FragmentLifecycleCallbacks()
-                                            {
+                                            new FragmentManager.FragmentLifecycleCallbacks() {
                                                 @Override
                                                 public void onFragmentCreated(FragmentManager fm, Fragment f,
-                                                                              Bundle savedInstanceState)
-                                                {
-                                                    if (f instanceof Injectable)
-                                                    {
+                                                                              Bundle savedInstanceState) {
+                                                    if (f instanceof Injectable) {
                                                         AndroidSupportInjection.inject(f);
                                                     }
                                                 }
