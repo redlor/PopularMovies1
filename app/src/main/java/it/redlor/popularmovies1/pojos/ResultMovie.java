@@ -1,13 +1,26 @@
 package it.redlor.popularmovies1.pojos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 
-public class ResultMovie {
+public class ResultMovie implements Parcelable {
 
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
+        public ResultMovie createFromParcel(Parcel in) {
+            return new ResultMovie(in);
+        }
+
+        public ResultMovie[] newArray(int size) {
+            return new ResultMovie[size];
+        }
+    };
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
@@ -50,6 +63,24 @@ public class ResultMovie {
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
+
+    public ResultMovie(int id, String title, String posterPath, String releaseDate, double voteAverage, String overview) {
+        this.id = id;
+        this.title = title;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.voteAverage = voteAverage;
+        this.overview = overview;
+    }
+
+    public ResultMovie(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        posterPath = in.readString();
+        releaseDate = in.readString();
+        voteAverage = in.readDouble();
+        overview = in.readString();
+    }
 
     public Integer getVoteCount() {
         return voteCount;
@@ -163,4 +194,30 @@ public class ResultMovie {
         this.releaseDate = releaseDate;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(this.id);
+        parcel.writeString(this.title);
+        parcel.writeString(this.posterPath);
+        parcel.writeString(this.releaseDate);
+        parcel.writeDouble(this.voteAverage);
+        parcel.writeString(this.overview);
+    }
+
+    @Override
+    public String toString() {
+        return "ResultMovie{" +
+                "id='" + id + '\'' +
+                ", name='" + title + '\'' +
+                ", date='" + releaseDate + '\'' +
+                ", poster='" + posterPath + '\'' +
+                ", vote='" + voteAverage + '\'' +
+                '}';
+    }
 }

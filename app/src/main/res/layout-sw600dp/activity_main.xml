@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            tools:context="it.redlor.popularmovies1.ui.MainActivity">
+
+            <Spinner
+                android:id="@+id/spinner"
+                style="@android:style/Widget.Spinner.DropDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/sort_movies"
+                android:prompt="@string/app_name"
+                android:spinnerMode="dropdown"
+                android:visibility="visible"
+                tools:entries="@array/sort_movies"></Spinner>
+
+            <ImageView
+                android:id="@+id/no_internet_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinner"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/no_internet_image_margin"
+                android:src="@drawable/wifi"
+                android:visibility="gone"
+                tools:src="@drawable/wifi" />
+
+            <TextView
+                android:id="@+id/no_internet_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/no_internet_image"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin"
+                android:text="@string/no_internet"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/no_internet_text"
+                android:visibility="gone"
+                tools:text="@string/no_internet" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movies_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/spinner"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/loading_indicator"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- A small divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/details_linear_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/details_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/clapper_board" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

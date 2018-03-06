@@ -1,0 +1,33 @@
+package it.redlor.popularmovies1.di;
+
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+
+import dagger.Binds;
+import dagger.Module;
+import dagger.multibindings.IntoMap;
+import it.redlor.popularmovies1.viewmodel.MovieViewModel;
+import it.redlor.popularmovies1.viewmodel.MoviesListViewModel;
+import it.redlor.popularmovies1.viewmodel.ViewModelFactory;
+import it.redlor.popularmovies1.viewmodel.ViewModelKey;
+
+/**
+ * Module that provides ViewModels
+ */
+
+@Module(includes = {ApiClientModule.class})
+public abstract class ViewModelModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MoviesListViewModel.class)
+    abstract ViewModel bindListVM(MoviesListViewModel moviesListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieViewModel.class)
+    abstract ViewModel bindMovieVM(MovieViewModel movieViewModel);
+
+    @Binds
+    abstract ViewModelProvider.Factory bindVMFactory(ViewModelFactory viewModelFactory);
+}

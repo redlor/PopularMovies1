@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">PopularMovies1</string>
+    <string name="app_name">Popular Movies</string>
+
+    <!-- Spinner -->
+    <string-array name="sort_movies">
+        <item>Most Popular</item>
+        <item>Top Rated</item>
+    </string-array>
+
+    <!-- No Internet connection -->
+    <string name="credit_wifi_icon">https://www.flaticon.com/authors/kirill-kazachek</string>
+    <string name="no_internet">No Internet connection</string>
+    
+    <!-- Details Activity -->
+    <string name="release_date_label">Release Date</string>
+    <string name="rating_label">Rating</string>
 </resources>

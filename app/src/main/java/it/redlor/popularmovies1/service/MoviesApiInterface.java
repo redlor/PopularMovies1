@@ -6,13 +6,15 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * Created by Hp on 18/02/2018.
+ * Interface to define endpoints
  */
 
-public interface PopularMoviesApiInterface {
+public interface MoviesApiInterface {
 
     // Customize the Url request
     @GET("popular")
-    Observable<Root> getRepository(@Query("api_key") String apyKey);
+    Observable<Root> getRepository(@Query("api_key") String apiKey);
 
+    @GET("top_rated")
+    Observable<Root> getTopRatedRepo(@Query("api_key") String apiKey);
 }
